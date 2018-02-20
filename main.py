@@ -20,6 +20,5 @@ def main():
                 pos = pygame.mouse.get_pos()
                 hex = pixel_to_hex(pos[0], pos[1])
                 unHexagone = hexagone(DISPLAY, pos[0], pos[1], 50)
-                print(str(pos[0])+" , "+str(pos[1]))
         pygame.display.update()
 main()
