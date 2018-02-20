@@ -9,7 +9,7 @@ def main():
     WHITE=(255,255,255)
     DISPLAY.fill(WHITE)
 
-    grid(DISPLAY)
+    g = grid(DISPLAY)
 
     while True:
         for event in pygame.event.get():
@@ -18,7 +18,7 @@ def main():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                hex = pixel_to_hex(pos[0], pos[1])
-                unHexagone = hexagone(DISPLAY, pos[0], pos[1], 50)
+                g.calcul_point(pos[0],pos[1])
         pygame.display.update()
 main()
+s
