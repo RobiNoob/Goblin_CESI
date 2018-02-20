@@ -37,12 +37,16 @@ class grid:
         pygame.init()
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
-        for col in range(10):
-            for row in range(10):
+        i = 10
+        j = 10
+        tabHex = []
+        for col in range(i):
+            for row in range(j):
                 hex = Hex(col,row)
                 oddq_to_cube(hex)
                 cube_to_axial(hex)
                 hex_to_pixel(hex)
+                tabHex.append(hex)
                 hexagone(DISPLAY,x+hex.x,y+hex.y,size)
                 label = myfont.render(str(hex.col) + ","+str(hex.row), 1, (0,0,0))
                 DISPLAY.blit(label, (x+hex.x, y+hex.y))
