@@ -39,4 +39,11 @@ class Hex:
     def __init__(self, col, row):
         self.col = col
         self.row = row
+
+    def calcul_distance(x, y):
+        distance = sqrt(pow(self.x-x, 2) + pow(self.y - y, 2))
+        if distance < 50
+            return True
+        else
+            return False
 #-------------------------------------------------------------------------------------------------------------
