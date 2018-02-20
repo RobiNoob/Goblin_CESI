@@ -33,20 +33,30 @@ def pixel_to_hex(x, y):
 #------------------------------------ class grid ---------------------------------------------------------
 class grid:
 
+
+    tabHex = []
+
     def __init__(self, DISPLAY):
         pygame.init()
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
         i = 10
         j = 10
-        tabHex = []
         for col in range(i):
             for row in range(j):
                 hex = Hex(col,row)
                 oddq_to_cube(hex)
                 cube_to_axial(hex)
                 hex_to_pixel(hex)
-                tabHex.append(hex)
+                self.tabHex.append(hex)
                 hexagone(DISPLAY,x+hex.x,y+hex.y,size)
                 label = myfont.render(str(hex.col) + ","+str(hex.row), 1, (0,0,0))
                 DISPLAY.blit(label, (x+hex.x, y+hex.y))
+
+    def calcul_point(self, x, y, DISPLAY):
+        for hexa in self.tabHex:
+            if hexa.calcul_distance(x, y) == True:
+                print (str(hexa.col)+" , "+str(hexa.row))
+                red = (255, 0, 0)
+                pygame.draw.rect(DISPLAY, red, [hexa.x+50, hexa.y+50, 25, 25])
+                break

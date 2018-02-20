@@ -40,10 +40,10 @@ class Hex:
         self.col = col
         self.row = row
 
-    def calcul_distance(x, y):
-        distance = sqrt(pow(self.x-x, 2) + pow(self.y - y, 2))
-        if distance < 50
+    def calcul_distance(self, x, y):
+        distance = sqrt(pow((self.x+50)-x, 2) + pow((self.y+50) - y, 2))
+        if distance < 50:
             return True
-        else
+        else:
             return False
 #-------------------------------------------------------------------------------------------------------------

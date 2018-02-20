@@ -18,7 +18,6 @@ def main():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                g.calcul_point(pos[0],pos[1])
+                g.calcul_point(pos[0],pos[1], DISPLAY)
         pygame.display.update()
 main()
-s
