@@ -3,9 +3,9 @@ import pygame, sys
 from math import *
 from pygame.locals import *
 
-x = 50
-y = 50
-size = 50
+x = 13
+y = -10
+size = 25
 width = sqrt(3)/2*(size*2)
 
 #------------------------------------ off to cub ---------------------------------------------------------
@@ -56,8 +56,8 @@ class grid:
         pygame.init()
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
-        i = 10
-        j = 10
+        i = 13
+        j = 20
         for col in range(i):
             for row in range(j):
                 hex = Hex(col,row)
@@ -75,8 +75,8 @@ class grid:
                 print (str(hexa.col)+" , "+str(hexa.row))
                 red = (255, 0, 0)
                 green = (0, 255, 0)
-                pygame.draw.rect(DISPLAY, red, [hexa.x+50, hexa.y+50, 25, 25])
+                pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
                 for i in range (0, 6):
                     hexa2 = oddq_offset_neighbor(hexa, i)
-                    pygame.draw.rect(DISPLAY, green, [hexa2.x+50, hexa2.y+50, 25, 25])
+                    pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
                 break
