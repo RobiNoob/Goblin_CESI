@@ -5,7 +5,7 @@ from grid import *
 
 def main():
     pygame.init()
-    DISPLAY=pygame.display.set_mode((1800,900),0,32)
+    DISPLAY=pygame.display.set_mode((500,825),0,32)
     WHITE=(255,255,255)
     DISPLAY.fill(WHITE)
 

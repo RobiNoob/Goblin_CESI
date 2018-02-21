@@ -30,6 +30,22 @@ def pixel_to_hex(x, y):
     r = (-x / 3 + sqrt(3)/3 * y) / size
     return (q, r)
 
+oddq_directions = [
+   [ Hex(+1,  0), Hex(+1, -1), Hex( 0, -1),
+     Hex(-1, -1), Hex(-1,  0), Hex( 0, +1) ],
+   [ Hex(+1, +1), Hex(+1,  0), Hex( 0, -1),
+     Hex(-1,  0), Hex(-1, +1), Hex( 0, +1) ]
+]
+
+def oddq_offset_neighbor(hex, direction):
+    parity = hex.col & 1
+    dir = oddq_directions[parity][direction]
+    hexa  = Hex(hex.col + dir.col, hex.row + dir.row)
+    oddq_to_cube(hexa)
+    cube_to_axial(hexa)
+    hex_to_pixel(hexa)
+    return hexa
+
 #------------------------------------ class grid ---------------------------------------------------------
 class grid:
 
@@ -58,5 +74,9 @@ class grid:
             if hexa.calcul_distance(x, y) == True:
                 print (str(hexa.col)+" , "+str(hexa.row))
                 red = (255, 0, 0)
+                green = (0, 255, 0)
                 pygame.draw.rect(DISPLAY, red, [hexa.x+50, hexa.y+50, 25, 25])
+                for i in range (0, 6):
+                    hexa2 = oddq_offset_neighbor(hexa, i)
+                    pygame.draw.rect(DISPLAY, green, [hexa2.x+50, hexa2.y+50, 25, 25])
                 break
