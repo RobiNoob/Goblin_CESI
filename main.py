@@ -5,10 +5,10 @@ from grid import *
 
 def main():
     pygame.init()
-    DISPLAY=pygame.display.set_mode((488,825),0,32)
+    DISPLAY=pygame.display.set_mode((1310,929),0,32)
     WHITE=(255,255,255)
     DISPLAY.fill(WHITE)
-    fond = pygame.image.load("goblin_map1.jpg")
+    fond = pygame.image.load("map.jpg")
     DISPLAY.blit(fond, (0,0))
 
 

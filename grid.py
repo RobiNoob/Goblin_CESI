@@ -3,9 +3,9 @@ import pygame, sys
 from math import *
 from pygame.locals import *
 
-x = 13
-y = -10
-size = 25
+x = 77
+y = 72
+size = 70
 width = sqrt(3)/2*(size*2)
 
 #------------------------------------ off to cub ---------------------------------------------------------
@@ -56,8 +56,8 @@ class grid:
         pygame.init()
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
-        i = 13
-        j = 20
+        i = 12
+        j = 7
         for col in range(i):
             for row in range(j):
                 hex = Hex(col,row)
@@ -65,8 +65,8 @@ class grid:
                 cube_to_axial(hex)
                 hex_to_pixel(hex)
                 self.tabHex.append(hex)
-                hexagone(DISPLAY,x+hex.x,y+hex.y,size)
-                label = myfont.render(str(hex.col) + ","+str(hex.row), 1, (0,0,0))
+                #hexagone(DISPLAY,x+hex.x,y+hex.y,size)
+                label = myfont.render(str(hex.col) + ","+str(hex.row), 1, (255,255,255))
                 DISPLAY.blit(label, (x+hex.x, y+hex.y))
 
     def calcul_point(self, x, y, DISPLAY):
