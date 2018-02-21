@@ -51,15 +51,37 @@ class grid:
 
 
     tabHex = []
+    i = 12
+    j = 7
+    routes = [
+        ((2,2),(3,2),3),
+        ((3,2),(4,2),1),
+        ((4,2),(5,1),1),
+        ((5,1),(6,1),1),
+        ((2,2),(2,3),1),
+        ((2,3),(2,4),1),
+        ((2,4),(2,5),1),
+        ((2,5),(2,6),1),
+        ((2,6),(3,5),1),
+        ((3,5),(3,4),1),
+        ((3,4),(4,4),1),
+        ((4,4),(5,3),1),
+        ((5,3),(6,3),1),
+        ((6,1),(6,2),1),
+        ((6,2),(6,3),1),
+        ((6,3),(6,4),1),
+        ((6,4),(6,5),1),
+        ((6,5),(7,5),1),
+        ((7,5),(8,6),1),
+        ((7,5),(8,6),2),
+    ]
 
     def __init__(self, DISPLAY):
         pygame.init()
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
-        i = 12
-        j = 7
-        for col in range(i):
-            for row in range(j):
+        for col in range(self.i):
+            for row in range(self.j):
                 hex = Hex(col,row)
                 oddq_to_cube(hex)
                 cube_to_axial(hex)
@@ -78,5 +100,7 @@ class grid:
                 pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
                 for i in range (0, 6):
                     hexa2 = oddq_offset_neighbor(hexa, i)
-                    pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
+                    if hexa2.col >= 0 and hexa2.col < self.i:
+                        if hexa2.row >= 0 and hexa2.row < self.j:
+                            pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
                 break
