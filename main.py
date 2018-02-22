@@ -8,7 +8,7 @@ def main():
     DISPLAY=pygame.display.set_mode((1310,929),0,32)
     WHITE=(255,255,255)
     DISPLAY.fill(WHITE)
-    fond = pygame.image.load("map.jpg")
+    fond = pygame.image.load("carte.jpg")
     DISPLAY.blit(fond, (0,0))
 
 
