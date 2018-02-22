@@ -5,7 +5,9 @@ from grid import *
 
 def main():
     pygame.init()
-    DISPLAY=pygame.display.set_mode((1310,929),0,32)
+    screen = pygame.display
+    DISPLAY=screen.set_mode((1310,929),0,32)
+    screen.set_caption('Goblin Dwarf Star')
     WHITE=(255,255,255)
     DISPLAY.fill(WHITE)
     fond = pygame.image.load("carte.jpg")
@@ -22,6 +24,6 @@ def main():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                g.calcul_point(pos[0],pos[1], DISPLAY)
-        pygame.display.update()
+                g.onClick(pos[0],pos[1], DISPLAY, fond)
+        screen.update()
 main()

@@ -2,6 +2,7 @@ from hexagone import *
 import pygame, sys
 from math import *
 from pygame.locals import *
+from joueur import *
 
 x = 77
 y = 72
@@ -84,8 +85,11 @@ class grid:
         ((2,3),(2,4),3),
     ]
 
+    unJoueur = joueur(1, 10, 2, 12, 2, 0, 0)
+
     def __init__(self, DISPLAY):
         pygame.init()
+        self.unJoueur.drawJoueur(DISPLAY)
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
         for col in range(self.i):
@@ -99,16 +103,26 @@ class grid:
                 label = myfont.render(str(hex.col) + ","+str(hex.row), 1, (255,255,255))
                 DISPLAY.blit(label, (x+hex.x, y+hex.y))
 
-    def calcul_point(self, x, y, DISPLAY):
+    def onClick(self, x, y, DISPLAY, fond):
         for hexa in self.tabHex:
             if hexa.calcul_distance(x, y) == True:
-                print (str(hexa.col)+" , "+str(hexa.row))
                 red = (255, 0, 0)
                 green = (0, 255, 0)
                 pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
+                self.updateGrid(fond, DISPLAY)
+                self.unJoueur.col = hexa.col
+                self.unJoueur.row = hexa.row
+                self.unJoueur.drawJoueur(DISPLAY)
                 for i in range (0, 6):
                     hexa2 = oddq_offset_neighbor(hexa, i)
                     if hexa2.col >= 0 and hexa2.col < self.i:
                         if hexa2.row >= 0 and hexa2.row < self.j:
                             pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
                 break
+
+    def updateGrid(self, fond, DISPLAY):
+        DISPLAY.blit(fond, (0,0))
+        for hexa in self.tabHex:
+            myfont = pygame.font.SysFont("monospace", 15)
+            label = myfont.render(str(hexa.col) + ","+str(hexa.row), 1, (255,255,255))
+            DISPLAY.blit(label, (x+hexa.x, y+hexa.y))
