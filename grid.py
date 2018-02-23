@@ -72,6 +72,7 @@ class grid:
         ((3,3),5),((9,2),6)
               ]
 
+    # normal = 0
     # route = 1
     # rivier = 2
     # pont = 3
@@ -106,19 +107,25 @@ class grid:
     def onClick(self, x, y, DISPLAY, fond):
         for hexa in self.tabHex:
             if hexa.calcul_distance(x, y) == True:
-                red = (255, 0, 0)
-                green = (0, 255, 0)
-                pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
-                self.updateGrid(fond, DISPLAY)
-                self.unJoueur.col = hexa.col
-                self.unJoueur.row = hexa.row
-                self.unJoueur.drawJoueur(DISPLAY)
                 for i in range (0, 6):
-                    hexa2 = oddq_offset_neighbor(hexa, i)
-                    if hexa2.col >= 0 and hexa2.col < self.i:
-                        if hexa2.row >= 0 and hexa2.row < self.j:
-                            if self.calculNbHex(hexa2) > 0:
-                                pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
+                    hexJoueur  = Hex(self.unJoueur.col,self.unJoueur.row)
+                    hexa2 = oddq_offset_neighbor(hexJoueur, i)
+                    if hexa.col == hexa2.col and hexa.row == hexa2.row and self.calculNbHex(hexa) > 0:
+                        red = (255, 0, 0)
+                        green = (0, 255, 0)
+                        pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
+                        self.updateGrid(fond, DISPLAY)
+                        self.unJoueur.col = hexa.col
+                        self.unJoueur.row = hexa.row
+                        self.unJoueur.drawJoueur(DISPLAY)
+                        for j in range (0, 6):
+                            hexa3 = oddq_offset_neighbor(hexa, j)
+                            print("hexa " + str(hexa3.col)+  " " + str(hexa3.row))
+                            if hexa3.col >= 0 and hexa2.col < self.i:
+                                if hexa3.row >= 0 and hexa3.row < self.j:
+                                    print(self.calculNbHex(hexa3))
+                                    if self.calculNbHex(hexa3) > 0:
+                                        pygame.draw.rect(DISPLAY, green, [hexa3.x+38, hexa3.y+44, 25, 25])
                 break
 
     def updateGrid(self, fond, DISPLAY):
@@ -132,22 +139,41 @@ class grid:
         for pos in self.arc:
             if self.unJoueur.col == pos[0][0] and self.unJoueur.row == pos[0][1]:
                 if hexa.col == pos[1][0] and hexa.row == pos[1][1]:
-                    return self.calculDeplacementJoueur(pos[3])
+                    return self.calculDeplacementJoueur(pos[2],0)
 
             if self.unJoueur.col == pos[1][0] and self.unJoueur.row == pos[1][1]:
                 if hexa.col == pos[0][0] and hexa.row == pos[0][1]:
-                    print(str(self.unJoueur.col)+)
-                    return self.calculDeplacementJoueur(pos[3])
+                    return self.calculDeplacementJoueur(pos[2],0)
 
+        for case in self.terrain:
+            if hexa.col == case[0][0] and hexa.row == case[0][1]:
+                return self.calculDeplacementJoueur(0,case[1])
+        return 1
+
+
+    def calculDeplacementJoueur(self, typeArc,typeTerrain):
+        if typeArc != 0:
+            print("typ arc " + str(typeArc))
+            if typeArc == 1:
+                return 1
+            if typeArc == 2:
+                return 0
+            if typeArc == 3:
+                return 2
+            if typeArc < 1 or typeArc > 2:
+                return 0
+
+        if typeTerrain == 1:
+            return 3
+        if typeTerrain == 2:
             return 1
-
-
-    def calculDeplacementJoueur(self, typeArc):
-        if typeArc == 1:
+        if typeTerrain == 3:
             return 1
-        if typeArc == 2:
+        if typeTerrain == 4:
             return 0
-        if typeArc == 3:
-            return 2
-        if typeArc < 1 or typeArc > 2:
+        if typeTerrain == 5:
             return 0
+        if typeTerrain == 6:
+            return 1
+        return 1
+
