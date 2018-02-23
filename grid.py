@@ -69,7 +69,7 @@ class grid:
         ((3,2),3),((4,2),3),((5,1),3),((2,3),3),((2,4),3),((2,5),3),((3,5),3),((3,4),3),
         ((4,4),3),((5,3),3),((6,2),3),((6,3),3),((6,4),3),((6,5),3),((7,5),3),
         ((9,0),4),((10,0),4),((10,1),4),((10,2),4),((10,3),4),((10,4),4),((11,1),4),((11,2),4),((11,3),4),
-        ((3,3),5),((9,2),6),
+        ((3,3),5),((9,2),6)
               ]
 
     # route = 1
@@ -82,7 +82,7 @@ class grid:
         ((0,2),(0,3),2),((1,2),(0,3),2),((1,2),(1,3),2),((2,3),(1,3),2),((3,2),(4,3),2),((4,2),(4,3),2),
         ((4,2),(5,2),2),((5,1),(5,2),2),((5,1),(6,2),2),((4,4),(4,5),2),((5,4),(4,5),2),((4,5),(5,4),2),
         ((4,6),(5,5),2),((4,6),(5,6),2),((10,6),(11,6),2),((10,6),(11,5),2),((10,5),(11,5),2),((11,4),(11,5),2),
-        ((2,3),(2,4),3),
+        ((2,3),(2,4),3)
     ]
 
     unJoueur = joueur(1, 10, 2, 12, 2, 0, 0)
@@ -117,7 +117,8 @@ class grid:
                     hexa2 = oddq_offset_neighbor(hexa, i)
                     if hexa2.col >= 0 and hexa2.col < self.i:
                         if hexa2.row >= 0 and hexa2.row < self.j:
-                            pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
+                            if self.calculNbHex(hexa2) > 0:
+                                pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
                 break
 
     def updateGrid(self, fond, DISPLAY):
@@ -126,3 +127,27 @@ class grid:
             myfont = pygame.font.SysFont("monospace", 15)
             label = myfont.render(str(hexa.col) + ","+str(hexa.row), 1, (255,255,255))
             DISPLAY.blit(label, (x+hexa.x, y+hexa.y))
+
+    def calculNbHex(self, hexa):
+        for pos in self.arc:
+            if self.unJoueur.col == pos[0][0] and self.unJoueur.row == pos[0][1]:
+                if hexa.col == pos[1][0] and hexa.row == pos[1][1]:
+                    return self.calculDeplacementJoueur(pos[3])
+
+            if self.unJoueur.col == pos[1][0] and self.unJoueur.row == pos[1][1]:
+                if hexa.col == pos[0][0] and hexa.row == pos[0][1]:
+                    print(str(self.unJoueur.col)+)
+                    return self.calculDeplacementJoueur(pos[3])
+
+            return 1
+
+
+    def calculDeplacementJoueur(self, typeArc):
+        if typeArc == 1:
+            return 1
+        if typeArc == 2:
+            return 0
+        if typeArc == 3:
+            return 2
+        if typeArc < 1 or typeArc > 2:
+            return 0

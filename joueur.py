@@ -48,5 +48,5 @@ class joueur:
         oddq_to_cube(hexa)
         cube_to_axial(hexa)
         hex_to_pixel(hexa)
-        DISPLAY.blit(img, (hexa.x, hexa.y))
+        DISPLAY.blit(img, (hexa.x+40, hexa.y+30))
 
