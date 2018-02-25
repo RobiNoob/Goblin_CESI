@@ -64,7 +64,7 @@ class grid:
     # cave = 6
 
     terrain = [
-        ((3,0),1),((3,1),1),((2,4),1),((2,5),1),((6,6),1),
+        ((3,0),1),((3,1),1),((2,4),1),((5,5),1),((6,6),1),
         ((1,1),2),((1,2),2),((2,6),2),((5,0),2),((6,0),2),((6,1),2),((8,5),2),((8,6),2),
         ((3,2),3),((4,2),3),((5,1),3),((2,3),3),((2,4),3),((2,5),3),((3,5),3),((3,4),3),
         ((4,4),3),((5,3),3),((6,2),3),((6,3),3),((6,4),3),((6,5),3),((7,5),3),
@@ -91,6 +91,7 @@ class grid:
     def __init__(self, DISPLAY):
         pygame.init()
         self.unJoueur.drawJoueur(DISPLAY)
+        self.drawDep(DISPLAY)
         myfont = pygame.font.SysFont("monospace", 15)
         blue=(0,0,255)
         for col in range(self.i):
@@ -110,23 +111,35 @@ class grid:
                 for i in range (0, 6):
                     hexJoueur  = Hex(self.unJoueur.col,self.unJoueur.row)
                     hexa2 = oddq_offset_neighbor(hexJoueur, i)
-                    if hexa.col == hexa2.col and hexa.row == hexa2.row and self.calculNbHex(hexa) > 0:
-                        red = (255, 0, 0)
-                        green = (0, 255, 0)
-                        pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
-                        self.updateGrid(fond, DISPLAY)
-                        self.unJoueur.col = hexa.col
-                        self.unJoueur.row = hexa.row
-                        self.unJoueur.drawJoueur(DISPLAY)
-                        for j in range (0, 6):
-                            hexa3 = oddq_offset_neighbor(hexa, j)
-                            print("hexa " + str(hexa3.col)+  " " + str(hexa3.row))
-                            if hexa3.col >= 0 and hexa2.col < self.i:
-                                if hexa3.row >= 0 and hexa3.row < self.j:
-                                    print(self.calculNbHex(hexa3))
-                                    if self.calculNbHex(hexa3) > 0:
-                                        pygame.draw.rect(DISPLAY, green, [hexa3.x+38, hexa3.y+44, 25, 25])
+                    pointDep = self.calculNbHex(hexa)
+                    if hexa.col == hexa2.col and hexa.row == hexa2.row:
+                        if pointDep > 0 and (self.unJoueur.pointMouvement - pointDep) >= 0:
+                            red = (255, 0, 0)
+                            #pygame.draw.rect(DISPLAY, red, [hexa.x+38, hexa.y+44, 25, 25])
+                            self.updateGrid(fond, DISPLAY)
+                            self.unJoueur.pointMouvement -= pointDep
+                            print("dep : " + str(self.unJoueur.pointMouvement) + " " + str(pointDep))
+                            self.unJoueur.col = hexa.col
+                            self.unJoueur.row = hexa.row
+                            self.unJoueur.drawJoueur(DISPLAY)
+                            self.drawDep(DISPLAY)
                 break
+
+    def drawDep(self,DISPLAY):
+        green = (0, 255, 0)
+        for j in range (0, 6):
+            hexa = Hex(self.unJoueur.col,self.unJoueur.row)
+            hexa2 = oddq_offset_neighbor(hexa, j)
+            if hexa2.col >= 0 and hexa2.col < self.i:
+                if hexa2.row >= 0 and hexa2.row < self.j:
+                    nbDep = self.calculNbHex(hexa2)
+                    if nbDep > 0:
+                        if nbDep <= self.unJoueur.pointMouvement:
+                            #self.unJoueur.pointMouvement -= nbDep
+                            myfont = pygame.font.SysFont("monospace", 20)
+                            label = myfont.render(str(nbDep), 1, (0,0,0))
+                            pygame.draw.rect(DISPLAY, green, [hexa2.x+38, hexa2.y+44, 25, 25])
+                            DISPLAY.blit(label, (hexa2.x+38, hexa2.y+44))
 
     def updateGrid(self, fond, DISPLAY):
         DISPLAY.blit(fond, (0,0))
@@ -153,7 +166,6 @@ class grid:
 
     def calculDeplacementJoueur(self, typeArc,typeTerrain):
         if typeArc != 0:
-            print("typ arc " + str(typeArc))
             if typeArc == 1:
                 return 1
             if typeArc == 2:
